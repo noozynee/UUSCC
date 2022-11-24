@@ -14,33 +14,33 @@ Shader "uuscc/color"
         {
             HLSLPROGRAM
 
-            #pragma vertex VertexMain
-            #pragma fragment PixelMain
+            #pragma vertex VSMain
+            #pragma fragment PSMain
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-            struct VertexInput
+            struct VSInput
             {                
                 float4 pos : POSITION;
             };
 
-            struct VertexOut
+            struct PSInput
             {                
-                float4 positionHCS  : SV_POSITION;
+                float4 posCS  : SV_POSITION;
             };
 
             CBUFFER_START(UnityPerMaterial)
                 half4 _BaseColor;
             CBUFFER_END
             
-            VertexOut VertexMain ( VertexInput input )
+            PSInput VSMain ( VSInput input )
             {
-                VertexOut output;
-                output.positionHCS = TransformObjectToHClip( input.pos.xyz );                
+                PSInput output = (PSInput)0;
+                output.posCS = TransformObjectToHClip( input.pos.xyz );                
                 return output;
             }
             
-            half4 PixelMain() : SV_Target
+            half4 PSMain() : SV_Target
             {               
                 return _BaseColor;
             }
