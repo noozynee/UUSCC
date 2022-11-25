@@ -1,5 +1,5 @@
 
-Shader "uuscc/color"
+Shader "uuscc/02-base-map"
 {
     Properties
     { 
