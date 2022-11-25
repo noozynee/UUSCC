@@ -2,8 +2,8 @@
 Shader "uuscc/02-base-map"
 {
     Properties
-    { 
-        [MainColor] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
+    {
+        [MainTexture] _BaseMap("Base Map", 2D) = "white"
     }
     
     SubShader
@@ -21,28 +21,37 @@ Shader "uuscc/02-base-map"
 
             struct VSInput
             {                
-                float4 pos : POSITION;
+                float4 pos  : POSITION;
+                float2 uv   : TEXCOORD0;
             };
 
             struct PSInput
             {                
-                float4 posCS  : SV_POSITION;
+                float4 posCS   : SV_POSITION;
+                float2 uv       : TEXCOORD0;
             };
 
-            CBUFFER_START(UnityPerMaterial)
-                half4 _BaseColor;
+            TEXTURE2D( _BaseMap );
+            SAMPLER( sampler_BaseMap );
+
+            CBUFFER_START( UnityPerMaterial )
+                float4 _BaseMap_ST;
             CBUFFER_END
             
             PSInput VSMain ( VSInput input )
             {
                 PSInput output = (PSInput)0;
+
                 output.posCS = TransformObjectToHClip( input.pos.xyz );                
+                output.uv = TRANSFORM_TEX( input.uv, _BaseMap );                
+
                 return output;
             }
             
-            half4 PSMain() : SV_Target
+            half4 PSMain( PSInput input ) : SV_Target
             {               
-                return _BaseColor;
+                half4 color = SAMPLE_TEXTURE2D( _BaseMap, sampler_BaseMap, input.uv );
+                return color;
             }
 
             ENDHLSL
