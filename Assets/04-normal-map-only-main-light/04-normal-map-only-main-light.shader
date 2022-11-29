@@ -3,7 +3,7 @@ Shader "uuscc/04-normal-map-only-main-light"
 {
     Properties
     {
-        // [MainTexture] _BaseMap("Base Map", 2D) = "white"
+        [MainTexture] _BaseMap("Base Map", 2D) = "white"
     }
     
     SubShader

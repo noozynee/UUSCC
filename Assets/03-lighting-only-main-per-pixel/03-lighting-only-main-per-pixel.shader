@@ -30,15 +30,11 @@ Shader "uuscc/03-lighting-only-main-per-pixel"
             struct PSInput
             {                
                 float4 posCS   : SV_POSITION;
-                float3 posWS    : TEXCOORD0;
-                float3 normalWS : TEXCOORD1;
+                float3 normalWS : TEXCOORD0;
             };
 
-            // TEXTURE2D( _BaseMap );
-            // SAMPLER( sampler_BaseMap );
-
-            CBUFFER_START( UnityPerMaterial )
-                // float4 _BaseMap_ST;
+            
+            CBUFFER_START( UnityPerMaterial )                
             CBUFFER_END
             
             PSInput VSMain ( VSInput input )
@@ -46,7 +42,6 @@ Shader "uuscc/03-lighting-only-main-per-pixel"
                 PSInput output = (PSInput)0;
 
                 output.posCS = TransformObjectToHClip( input.posOS.xyz );
-                output.posWS = TransformObjectToWorld( input.posOS.xyz );
                 output.normalWS = TransformObjectToWorldNormal( input.normalOS );
 
                 return output;
