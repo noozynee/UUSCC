@@ -3,7 +3,7 @@ Shader "uuscc/03-lighting"
 {
     Properties
     {
-        [MainTexture] _BaseMap("Base Map", 2D) = "white"
+        // [MainTexture] _BaseMap("Base Map", 2D) = "white"
     }
     
     SubShader
@@ -21,35 +21,36 @@ Shader "uuscc/03-lighting"
 
             struct VSInput
             {                
-                float4 pos  : POSITION;
-                float2 uv   : TEXCOORD0;
+                float4 posOS    : POSITION;
+                float3 normalOS : NORMAL;
             };
 
             struct PSInput
             {                
                 float4 posCS   : SV_POSITION;
-                float2 uv       : TEXCOORD0;
+                // float2 uv       : TEXCOORD0;
             };
 
-            TEXTURE2D( _BaseMap );
-            SAMPLER( sampler_BaseMap );
+            // TEXTURE2D( _BaseMap );
+            // SAMPLER( sampler_BaseMap );
 
             CBUFFER_START( UnityPerMaterial )
-                float4 _BaseMap_ST;
+                // float4 _BaseMap_ST;
             CBUFFER_END
             
             PSInput VSMain ( VSInput input )
             {
                 PSInput output = (PSInput)0;
 
-                output.posCS = TransformObjectToHClip( input.pos.xyz );                
-                output.uv = TRANSFORM_TEX( input.uv, _BaseMap );                
+                output.posCS = TransformObjectToHClip( input.posOS.xyz );
+                // output.uv = TRANSFORM_TEX( input.uv, _BaseMap );
+                output.normalWS = TransformObjectToWorldNormal( input.normalOS );
 
                 return output;
             }
             
             half4 PSMain( PSInput input ) : SV_Target
-            {               
+            {
                 half4 color = SAMPLE_TEXTURE2D( _BaseMap, sampler_BaseMap, input.uv );
                 return color;
             }
@@ -58,3 +59,5 @@ Shader "uuscc/03-lighting"
         }
     }
 }
+
+
