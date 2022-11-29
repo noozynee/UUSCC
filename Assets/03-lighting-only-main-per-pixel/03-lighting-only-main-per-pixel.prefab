@@ -2182,7 +2182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1591166866075111167}
   m_Layer: 0
-  m_Name: 03-lighting
+  m_Name: 03-lighting-only-main-per-pixel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

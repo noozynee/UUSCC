@@ -1,5 +1,5 @@
 
-Shader "uuscc/03-lighting"
+Shader "uuscc/03-lighting-only-main-per-pixel"
 {
     Properties
     {

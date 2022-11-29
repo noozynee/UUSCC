@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 03-lighting
+  m_Name: 03-lighting-only-main-per-pixel
   m_Shader: {fileID: 4800000, guid: 419c3b230db31410193971ba34b7c749, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
