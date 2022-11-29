@@ -18,6 +18,8 @@ Shader "uuscc/03-lighting"
             #pragma fragment PSMain
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
             struct VSInput
             {                
@@ -28,7 +30,8 @@ Shader "uuscc/03-lighting"
             struct PSInput
             {                
                 float4 posCS   : SV_POSITION;
-                // float2 uv       : TEXCOORD0;
+                float3 posWS    : TEXCOORD0;
+                float3 normalWS : TEXCOORD1;
             };
 
             // TEXTURE2D( _BaseMap );
@@ -43,7 +46,7 @@ Shader "uuscc/03-lighting"
                 PSInput output = (PSInput)0;
 
                 output.posCS = TransformObjectToHClip( input.posOS.xyz );
-                // output.uv = TRANSFORM_TEX( input.uv, _BaseMap );
+                output.posWS = TransformObjectToWorld( input.posOS.xyz );
                 output.normalWS = TransformObjectToWorldNormal( input.normalOS );
 
                 return output;
@@ -51,7 +54,10 @@ Shader "uuscc/03-lighting"
             
             half4 PSMain( PSInput input ) : SV_Target
             {
-                half4 color = SAMPLE_TEXTURE2D( _BaseMap, sampler_BaseMap, input.uv );
+                half3 dir = _MainLightPosition.xyz;
+                half4 color = half4(1, 1, 1, 1);
+                color.xyz = LightingLambert( color.xyz, dir, input.normalWS );
+
                 return color;
             }
 
